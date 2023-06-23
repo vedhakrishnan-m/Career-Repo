@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { createContext, useContext, useState } from "react";
+import { PortfolioIndex } from "./PortfolioIndex";
+import contextStore from "./store/store";
+
+export const ThemeContext = createContext(null);
 
 function App() {
+  const [store, setStore] = useState(contextStore);
+  function updateStore(key, value) {
+    let storeCopy = { ...store };
+    storeCopy[key] = value;
+    setStore(storeCopy);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ThemeContext.Provider value={{ store, updateStore }}>
+        <PortfolioIndex />
+      </ThemeContext.Provider>
     </div>
   );
 }
-
 export default App;
